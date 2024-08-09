@@ -21,7 +21,7 @@ let expenseCategories: array<expenseCategory> = [
     icon: "🚗",
   },
   {
-    label: "Foodx",
+    label: "Food",
     isCredit: false,
     icon: "🍔",
   },
@@ -115,7 +115,7 @@ let make = () => {
           className={`cursor-pointer text-xl rounded border p-5 m-5 flex justify-between   hover:bg-emerald-100  `}
           key={item.label}
           onClick={_ => {
-            setQuery(_ => item.label)
+            setQuery(_ => item.label ++ " " ++ item.icon)
             setShowDropdown(_ => false)
           }}>
           <span> {React.string(item.label)} </span>
@@ -123,6 +123,10 @@ let make = () => {
         </h1>
       }, filteredSuggestions)->React.array
       renderList
+    } else if showDropdown {
+      <h1 className={`cursor-pointer text-xl  p-5 m-5 flex justify-between   `}>
+        <span> {React.string("No such category")} </span>
+      </h1>
     } else {
       <> </>
     }
@@ -133,6 +137,10 @@ let make = () => {
       type_="text"
       value={query}
       onChange={handleInputChange}
+      onClick={_ => {
+        setFilteredSuggestions(_ => expenseCategories)
+        setShowDropdown(_ => true)
+      }}
       //   ref={ref}
       className="w-full px-4 py-2 border border-gray-300 rounded-lg"
       placeholder="Type to search..."

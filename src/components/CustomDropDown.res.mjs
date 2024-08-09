@@ -22,7 +22,7 @@ var expenseCategories = [
     icon: "🚗"
   },
   {
-    label: "Foodx",
+    label: "Food",
     isCredit: false,
     icon: "🍔"
   },
@@ -67,6 +67,7 @@ function CustomDropDown(props) {
         return false;
       });
   var setShowDropdown = match$2[1];
+  var showDropdown = match$2[0];
   var handleInputChange = function (e) {
     e.preventDefault();
     var value = e.target.value;
@@ -91,7 +92,7 @@ function CustomDropDown(props) {
           return false;
         });
   };
-  var renderMenuItems = match$2[0] && filteredSuggestions.length > 0 ? Js_array.map((function (item) {
+  var renderMenuItems = showDropdown && filteredSuggestions.length > 0 ? Js_array.map((function (item) {
             return JsxRuntime.jsxs("h1", {
                         children: [
                           JsxRuntime.jsx("span", {
@@ -104,14 +105,21 @@ function CustomDropDown(props) {
                         className: "cursor-pointer text-xl rounded border p-5 m-5 flex justify-between   hover:bg-emerald-100  ",
                         onClick: (function (param) {
                             setQuery(function (param) {
-                                  return item.label;
+                                  return item.label + " " + item.icon;
                                 });
                             setShowDropdown(function (param) {
                                   return false;
                                 });
                           })
                       }, item.label);
-          }), filteredSuggestions) : JsxRuntime.jsx(JsxRuntime.Fragment, {});
+          }), filteredSuggestions) : (
+      showDropdown ? JsxRuntime.jsx("h1", {
+              children: JsxRuntime.jsx("span", {
+                    children: "No such category"
+                  }),
+              className: "cursor-pointer text-xl  p-5 m-5 flex justify-between   "
+            }) : JsxRuntime.jsx(JsxRuntime.Fragment, {})
+    );
   return JsxRuntime.jsxs("div", {
               children: [
                 JsxRuntime.jsx("input", {
@@ -119,7 +127,15 @@ function CustomDropDown(props) {
                       placeholder: "Type to search...",
                       type: "text",
                       value: match[0],
-                      onChange: handleInputChange
+                      onChange: handleInputChange,
+                      onClick: (function (param) {
+                          setFilteredSuggestions(function (param) {
+                                return expenseCategories;
+                              });
+                          setShowDropdown(function (param) {
+                                return true;
+                              });
+                        })
                     }),
                 JsxRuntime.jsx("div", {
                       children: renderMenuItems,
