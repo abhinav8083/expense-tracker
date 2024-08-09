@@ -18,10 +18,10 @@ function SingleHistoryItem(props) {
                       className: "items-center"
                     }),
                 JsxRuntime.jsx("div", {
-                      children: 10000
+                      children: -10000
                     })
               ],
-              className: "flex flex-row justify-between  m-2 p-2  border-1  border-r-emerald-500  border-r-4 border-r-4"
+              className: "flex flex-row justify-between  m-2 p-2  border-1  border-r-red-500 border-r-4"
             });
 }
 

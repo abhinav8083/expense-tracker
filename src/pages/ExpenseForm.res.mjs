@@ -14,8 +14,8 @@ function ExpenseForm(props) {
                     }),
                 JsxRuntime.jsx(BalanceCard.make, {}),
                 JsxRuntime.jsx(IncomeExpenseCard.make, {}),
-                JsxRuntime.jsx(ExpenseHistory.make, {}),
-                JsxRuntime.jsx(AddNewTransaction.make, {})
+                JsxRuntime.jsx(AddNewTransaction.make, {}),
+                JsxRuntime.jsx(ExpenseHistory.make, {})
               ],
               className: "w-1/3  m-auto"
             });

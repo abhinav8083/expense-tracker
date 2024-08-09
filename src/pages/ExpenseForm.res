@@ -4,7 +4,7 @@ let make = () => {
     <h1> {React.string("Expense Tracker")} </h1>
     <BalanceCard />
     <IncomeExpenseCard />
-    <ExpenseHistory />
     <AddNewTransaction />
+    <ExpenseHistory />
   </div>
 }

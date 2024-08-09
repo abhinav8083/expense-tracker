@@ -1,6 +1,6 @@
 @react.component
 let make = () => {
-  let currentExpense = 10000
+  let currentExpense = -10000
   <div
     className={`flex flex-row justify-between  m-2 p-2  border-1  ${currentExpense >= 0
         ? "border-r-emerald-500  border-r-4"
