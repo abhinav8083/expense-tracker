@@ -79,11 +79,9 @@ function CustomDropDown(props) {
       setFilteredSuggestions(function (param) {
             return filtered;
           });
-      setShowDropdown(function (param) {
-            return true;
-          });
-      console.log(filtered);
-      return ;
+      return setShowDropdown(function (param) {
+                  return true;
+                });
     }
     setFilteredSuggestions(function (param) {
           return [];
@@ -105,7 +103,7 @@ function CustomDropDown(props) {
                         className: "cursor-pointer text-xl rounded border p-5 m-5 flex justify-between   hover:bg-emerald-100  ",
                         onClick: (function (param) {
                             setQuery(function (param) {
-                                  return item.label + " " + item.icon;
+                                  return item.label;
                                 });
                             setShowDropdown(function (param) {
                                   return false;

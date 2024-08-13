@@ -4,6 +4,7 @@ type expenseCategory = {
   icon: string,
 }
 
+//Category data
 let expenseCategories: array<expenseCategory> = [
   {
     label: "Salary",
@@ -70,7 +71,6 @@ let make = () => {
       })
       setFilteredSuggestions(_ => filtered)
       setShowDropdown(_ => true)
-      Js.log(filtered)
     } else {
       setFilteredSuggestions(_ => [])
       setShowDropdown(_ => false)
@@ -115,7 +115,7 @@ let make = () => {
           className={`cursor-pointer text-xl rounded border p-5 m-5 flex justify-between   hover:bg-emerald-100  `}
           key={item.label}
           onClick={_ => {
-            setQuery(_ => item.label ++ " " ++ item.icon)
+            setQuery(_ => item.label)
             setShowDropdown(_ => false)
           }}>
           <span> {React.string(item.label)} </span>
@@ -151,3 +151,56 @@ let make = () => {
     </div>
   </div>
 }
+
+// @react.component
+// let make = (~csv_link: option<string>, ~payload: Billings.invoice_details) => {
+//   let (showOptions, setShowOptions) = React.useState(() => false)
+//   let downloadButtonRef = React.useRef(Js.Nullable.null)
+
+//   let toggleOptions = () => {
+//     if (!showOptions) {
+//       CommonHelper.publishEvent(
+//         ~category=GAConfig.Billings.category,
+//         ~action=GAConfig.Billings.download_btn_clk,
+//         ~label="",
+//         (),
+//       )
+//     }
+//     setShowOptions(_ => !showOptions)
+//   }
+
+//   React.useEffect0(() => {
+//     let handleClickOutside = event => {
+//       if %raw(`(downloadButtonRef.current && !downloadButtonRef.current.contains(event.target))`) {
+//         setShowOptions(_ => false)
+//       }
+//     }
+
+//     JsBindings.addWindowEventListener("mousedown", handleClickOutside)
+//     Some(_ => JsBindings.removeWindowEventListener("mousedown", handleClickOutside))
+//   })
+
+//   <>
+//     <div className="c-download-button">
+//       <Catalyst.RoundedPrimaryButton
+//         buttonProps={Catalyst.ButtonUtils.getDefaultButtonProps(
+//           ~label=Text("Download"),
+//           ~postfixIcon=showOptions
+//             ? <Catalyst.Icon.ExpandLessIcon />
+//             : <Catalyst.Icon.ExpandMoreIcon />,
+//           ~onSelectCB=_ => toggleOptions(),
+//           ~buttonType=Primary,
+//           ~className="c-rounded-button-download",
+//           (),
+//         )}
+//       />
+//     </div>
+//     {switch showOptions {
+//     | false => React.null
+//     | true =>
+//       <div ref={ReactDOM.Ref.domRef(downloadButtonRef)}>
+//         <DownloadOptionsCmp csv_link payload />
+//       </div>
+//     }}
+//   </>
+// }

@@ -3,23 +3,29 @@
 import * as JsxRuntime from "react/jsx-runtime";
 
 function AmountInputField(props) {
+  var onChange = props.onChange;
   return JsxRuntime.jsxs("div", {
               children: [
-                JsxRuntime.jsx("span", {
-                      children: "Amount"
-                    }),
-                JsxRuntime.jsxs("div", {
+                JsxRuntime.jsxs("span", {
                       children: [
+                        "Amount",
                         JsxRuntime.jsx("span", {
-                              children: "+",
-                              className: "pr-2 text-2xl"
-                            }),
-                        JsxRuntime.jsx("input", {
-                              className: "w-full outline-none ",
-                              placeholder: "Enter amount",
-                              type: "number"
+                              children: "(-ve value for debit and +v value for credit)"
                             })
-                      ],
+                      ]
+                    }),
+                JsxRuntime.jsx("div", {
+                      children: JsxRuntime.jsx("input", {
+                            className: "w-full outline-none ",
+                            placeholder: "Enter amount",
+                            type: "number",
+                            value: props.value,
+                            onChange: (function (ev) {
+                                var target = ev.target;
+                                var value = target.value;
+                                onChange(value);
+                              })
+                          }),
                       className: "border-slate-400 border-[1px]  rounded p-2 w-full flex self-center"
                     })
               ]
