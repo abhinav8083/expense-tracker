@@ -78,11 +78,11 @@ let make = () => {
   }
 
   // Handle suggestion click
-  let handleSuggestionClick = suggestion => {
-    setQuery(suggestion)
-    setFilteredSuggestions(_ => expenseCategories)
-    setShowDropdown(_ => false)
-  }
+  // let handleSuggestionClick = suggestion => {
+  //   setQuery(suggestion)
+  //   setFilteredSuggestions(_ => expenseCategories)
+  //   setShowDropdown(_ => false)
+  // }
 
   // Handle outside click to close dropdown
   //   let ref = React.useRef(None)
