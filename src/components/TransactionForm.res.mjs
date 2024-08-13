@@ -10,6 +10,7 @@ function TransactionForm(props) {
         return "";
       });
   var setTransactionAmount = match[1];
+  var tansactionAmount = match[0];
   var handleTransactionAmountChange = function (val) {
     setTransactionAmount(function (param) {
           return val;
@@ -19,6 +20,7 @@ function TransactionForm(props) {
         return "";
       });
   var setTransactionCategory = match$1[1];
+  var transcationCategory = match$1[0];
   var handleTransactionCatChange = function (val) {
     setTransactionCategory(function (param) {
           return val;
@@ -27,16 +29,19 @@ function TransactionForm(props) {
   return JsxRuntime.jsxs("div", {
               children: [
                 JsxRuntime.jsx(ExpenseCategoryInput.make, {
-                      value: match$1[0],
+                      value: transcationCategory,
                       onChange: handleTransactionCatChange
                     }),
                 JsxRuntime.jsx(AmountInputField.make, {
-                      value: match[0],
+                      value: tansactionAmount,
                       onChange: handleTransactionAmountChange
                     }),
                 JsxRuntime.jsx("button", {
                       children: "Add Transaction",
-                      className: "bg-emerald-400 w-full p-2 font-bold rounded hover:bg-emerald-600"
+                      className: "bg-emerald-400 w-full p-2 font-bold  " + (
+                        transcationCategory !== "" && tansactionAmount !== "" ? "" : "cursor-not-allowed bg-slate-400"
+                      ),
+                      disabled: !(transcationCategory !== "" && tansactionAmount !== "")
                     })
               ]
             });
