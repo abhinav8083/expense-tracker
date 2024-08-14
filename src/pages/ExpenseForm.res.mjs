@@ -24,7 +24,6 @@ function ExpenseForm(props) {
         return parsedLocalStorageData;
       });
   var expenseFormData = match[0];
-  console.log(expenseFormData);
   return JsxRuntime.jsxs("div", {
               children: [
                 JsxRuntime.jsx("h1", {
