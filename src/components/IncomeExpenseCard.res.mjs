@@ -14,7 +14,7 @@ function IncomeExpenseCard(props) {
                         JsxRuntime.jsxs("span", {
                               children: [
                                 "+₹",
-                                100
+                                props.income
                               ],
                               className: "text-emerald-600"
                             })
@@ -30,7 +30,7 @@ function IncomeExpenseCard(props) {
                         JsxRuntime.jsxs("span", {
                               children: [
                                 "-₹",
-                                100
+                                Math.abs(props.expense)
                               ],
                               className: "text-red-600"
                             })

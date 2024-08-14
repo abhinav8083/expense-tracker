@@ -1,18 +1,18 @@
 @react.component
-let make = () => {
+let make = (~income: float, ~expense: float) => {
   <div className="flex border justify-between p-5">
     <div className="flex flex-col">
       <span className="font-bold text-lg"> {React.string("INCOME")} </span>
       <span className="text-emerald-600">
         {React.string("+₹")}
-        {React.int(100)}
+        {React.float(income)}
       </span>
     </div>
     <div className="flex flex-col">
       <span className="font-bold text-lg"> {React.string("EXPENSE")} </span>
       <span className="text-red-600">
         {React.string("-₹")}
-        {React.int(100)}
+        {React.float(abs_float(expense))}
       </span>
     </div>
   </div>

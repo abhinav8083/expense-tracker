@@ -1,3 +1,5 @@
+open Types
+
 type expenseCategory = {
   label: string,
   isCredit: bool,
@@ -51,3 +53,9 @@ let expenseCategories: array<expenseCategory> = [
     icon: "🗂️",
   },
 ]
+
+let defaultTransactionData = {
+  income: 0.0,
+  expense: 0.0,
+  transactions: [],
+}

@@ -1,23 +1,18 @@
+open Types
+
 type t = Dom_storage2.t
 let t = Dom_storage2.localStorage
 let saveToLocalStorage = (key: string, value: string) => {
   Dom_storage2.setItem(t, key, value)
 }
 
-type newTransaction = {
-  transactionCategory: string,
-  transactionAmount: string,
-  timestamp: Js.Date.t,
-}
-
-open Types
-type data = array<newTransaction>
+type data = transactionData
 @scope("JSON") @val
 external parseIntoMyData: string => data = "parse"
 
 @react.component
-let make = (~data: transactionData) => {
-  let tempData = data
+let make = (~data: transactionData, ~onNewTransaction: (data => data) => unit) => {
+  let tempData = ref(data)
   let (tansactionAmount, setTransactionAmount) = React.useState(_ => "")
   let handleTransactionAmountChange = val => {
     setTransactionAmount(_ => val)
@@ -41,17 +36,34 @@ let make = (~data: transactionData) => {
     let newTransactionVal = [
       {
         transactionCategory: transcationCategory,
-        transactionAmount: tansactionAmount,
+        amount: Belt.Float.fromString(tansactionAmount)->Belt.Option.getWithDefault(0.0),
         timestamp: Js.Date.make(),
       },
     ]
-    Js.log(tempData.income)
 
     // When localStorageData is undefined in that case  using "[]"
-    let transactionHistoryData = parseIntoMyData(localStorageData->Belt.Option.getWithDefault("[]"))
-    Js.log(transactionHistoryData)
-    let updatedTransactionHistory = Belt.Array.concat(newTransactionVal, transactionHistoryData)
-    let updatedTransactionHistoryString = JSON.stringifyAny(updatedTransactionHistory)
+    let transactionHistoryData = parseIntoMyData(
+      localStorageData->Belt.Option.getWithDefault(
+        JSON.stringifyAny(Constants.defaultTransactionData)->Belt.Option.getWithDefault(""),
+      ),
+    )
+
+    let updatedTransactionHistory = Belt.Array.concat(
+      newTransactionVal,
+      transactionHistoryData.transactions,
+    )
+
+    let amount = Belt.Float.fromString(tansactionAmount)->Belt.Option.getWithDefault(0.00)
+    let creditAmount = amount >= 0.0 ? amount : 0.0
+    let debitAmount = amount <= 0.0 ? amount : 0.0
+    let updatedData = {
+      expense: transactionHistoryData.expense +. debitAmount,
+      income: transactionHistoryData.income +. creditAmount,
+      transactions: updatedTransactionHistory,
+    }
+    onNewTransaction(_ => updatedData)
+    let updatedTransactionHistoryString = JSON.stringifyAny(updatedData)
+
     saveToLocalStorage(
       "transcationsData",
       updatedTransactionHistoryString->Belt.Option.getWithDefault(""),

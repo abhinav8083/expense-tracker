@@ -49,7 +49,16 @@ var expenseCategories = [
   }
 ];
 
+var defaultTransactionData_transactions = [];
+
+var defaultTransactionData = {
+  income: 0.0,
+  expense: 0.0,
+  transactions: defaultTransactionData_transactions
+};
+
 export {
   expenseCategories ,
+  defaultTransactionData ,
 }
 /* No side effect */

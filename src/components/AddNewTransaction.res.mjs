@@ -11,7 +11,8 @@ function AddNewTransaction(props) {
                       className: "font-bold text-lg"
                     }),
                 JsxRuntime.jsx(TransactionForm.make, {
-                      data: props.data
+                      data: props.data,
+                      onNewTransaction: props.onNewTransaction
                     })
               ]
             });
