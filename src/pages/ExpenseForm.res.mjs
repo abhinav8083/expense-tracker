@@ -25,9 +25,8 @@ function ExpenseForm(props) {
   var defaultTransactionDataString = JSON.stringify(defaultTransactionData);
   var localStorageData = t.getItem("transcationsData");
   var parsedLocalStorageData = JSON.parse(Belt_Option.getWithDefault(localStorageData === null ? undefined : Caml_option.some(localStorageData), Belt_Option.getWithDefault(defaultTransactionDataString, "")));
-  console.log(parsedLocalStorageData);
-  React.useState(function () {
-        return defaultTransactionData;
+  var match = React.useState(function () {
+        return parsedLocalStorageData;
       });
   return JsxRuntime.jsxs("div", {
               children: [
@@ -36,7 +35,9 @@ function ExpenseForm(props) {
                     }),
                 JsxRuntime.jsx(BalanceCard.make, {}),
                 JsxRuntime.jsx(IncomeExpenseCard.make, {}),
-                JsxRuntime.jsx(AddNewTransaction.make, {}),
+                JsxRuntime.jsx(AddNewTransaction.make, {
+                      data: match[0]
+                    }),
                 JsxRuntime.jsx(ExpenseHistory.make, {})
               ],
               className: "w-1/3  m-auto"

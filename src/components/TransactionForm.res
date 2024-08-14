@@ -10,12 +10,14 @@ type newTransaction = {
   timestamp: Js.Date.t,
 }
 
+open Types
 type data = array<newTransaction>
 @scope("JSON") @val
 external parseIntoMyData: string => data = "parse"
 
 @react.component
-let make = () => {
+let make = (~data: transactionData) => {
+  let tempData = data
   let (tansactionAmount, setTransactionAmount) = React.useState(_ => "")
   let handleTransactionAmountChange = val => {
     setTransactionAmount(_ => val)
@@ -43,10 +45,11 @@ let make = () => {
         timestamp: Js.Date.make(),
       },
     ]
+    Js.log(tempData.income)
 
     // When localStorageData is undefined in that case  using "[]"
     let transactionHistoryData = parseIntoMyData(localStorageData->Belt.Option.getWithDefault("[]"))
-
+    Js.log(transactionHistoryData)
     let updatedTransactionHistory = Belt.Array.concat(newTransactionVal, transactionHistoryData)
     let updatedTransactionHistoryString = JSON.stringifyAny(updatedTransactionHistory)
     saveToLocalStorage(

@@ -15,6 +15,7 @@ function saveToLocalStorage(key, value) {
 }
 
 function TransactionForm(props) {
+  var data = props.data;
   var match = React.useState(function () {
         return "";
       });
@@ -48,7 +49,9 @@ function TransactionForm(props) {
         transactionAmount: tansactionAmount,
         timestamp: new Date()
       }];
+    console.log(data.income);
     var transactionHistoryData = JSON.parse(Belt_Option.getWithDefault(localStorageData === null ? undefined : Caml_option.some(localStorageData), "[]"));
+    console.log(transactionHistoryData);
     var updatedTransactionHistory = Belt_Array.concat(newTransactionVal, transactionHistoryData);
     var updatedTransactionHistoryString = JSON.stringify(updatedTransactionHistory);
     saveToLocalStorage("transcationsData", Belt_Option.getWithDefault(updatedTransactionHistoryString, ""));

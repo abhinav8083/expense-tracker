@@ -10,7 +10,9 @@ function AddNewTransaction(props) {
                       children: "Add new transaction",
                       className: "font-bold text-lg"
                     }),
-                JsxRuntime.jsx(TransactionForm.make, {})
+                JsxRuntime.jsx(TransactionForm.make, {
+                      data: props.data
+                    })
               ]
             });
 }

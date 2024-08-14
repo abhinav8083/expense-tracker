@@ -1,7 +1,7 @@
 @react.component
-let make = () => {
+let make = (~data) => {
   <div>
     <h1 className="font-bold text-lg"> {React.string("Add new transaction")} </h1>
-    <TransactionForm />
+    <TransactionForm data={data} />
   </div>
 }

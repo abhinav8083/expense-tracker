@@ -1,14 +1,4 @@
-type transactionItem = {
-  transactionCategory: string,
-  amount: float,
-  timestamp: Js.Date.t,
-}
-
-type transactionData = {
-  income: float,
-  expense: float,
-  transactions: array<transactionItem>,
-}
+open Types
 
 type t = Dom_storage2.t
 let t = Dom_storage2.localStorage
@@ -20,6 +10,8 @@ type data = transactionData
 @scope("JSON") @val
 external parseIntoMyData: string => data = "parse"
 
+open Types
+
 @react.component
 let make = () => {
   let defaultTransactionData = {
@@ -27,6 +19,7 @@ let make = () => {
     expense: 0.0,
     transactions: [],
   }
+
   let defaultTransactionDataString = JSON.stringifyAny(defaultTransactionData)
   let localStorageData = Dom_storage2.getItem(t, "transcationsData")
   let parsedLocalStorageData = parseIntoMyData(
@@ -34,14 +27,14 @@ let make = () => {
       defaultTransactionDataString->Belt.Option.getWithDefault(""),
     ),
   )
-  Js.log(parsedLocalStorageData)
-  let (expenseFormData, setExpenseFormData) = React.useState(_ => defaultTransactionData)
+
+  let (expenseFormData, setExpenseFormData) = React.useState(_ => parsedLocalStorageData)
 
   <div className="w-1/3  m-auto">
     <h1> {React.string("Expense Tracker")} </h1>
     <BalanceCard />
     <IncomeExpenseCard />
-    <AddNewTransaction />
+    <AddNewTransaction data={expenseFormData} />
     <ExpenseHistory />
   </div>
 }
