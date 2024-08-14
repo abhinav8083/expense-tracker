@@ -48,7 +48,7 @@ function TransactionForm(props) {
         transactionAmount: tansactionAmount,
         timestamp: new Date()
       }];
-    var transactionHistoryData = JSON.parse(Belt_Option.getWithDefault(localStorageData === null ? undefined : Caml_option.some(localStorageData), ""));
+    var transactionHistoryData = JSON.parse(Belt_Option.getWithDefault(localStorageData === null ? undefined : Caml_option.some(localStorageData), "[]"));
     var updatedTransactionHistory = Belt_Array.concat(newTransactionVal, transactionHistoryData);
     var updatedTransactionHistoryString = JSON.stringify(updatedTransactionHistory);
     saveToLocalStorage("transcationsData", Belt_Option.getWithDefault(updatedTransactionHistoryString, ""));
