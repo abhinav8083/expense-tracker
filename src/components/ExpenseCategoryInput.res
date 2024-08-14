@@ -20,10 +20,9 @@ let expenseCategories: array<string> = [
 @react.component
 let make = (~value: string, ~onChange: string => unit) => {
   // State hooks
-  let (query, setQuery) = React.useState(() => "")
+  let (query, setQuery) = React.useState(() => value)
   let (filteredSuggestions, setFilteredSuggestions) = React.useState(() => [])
   let (showDropdown, setShowDropdown) = React.useState(() => false)
-
   // Handle input change
   let handleInputChange = e => {
     ReactEvent.Form.preventDefault(e)
@@ -76,7 +75,7 @@ let make = (~value: string, ~onChange: string => unit) => {
     <span> {React.string("Expense Category")} </span>
     <input
       type_="text"
-      value={query}
+      value={value}
       onChange={handleInputChange}
       onClick={_ => {
         setFilteredSuggestions(_ => expenseCategories)

@@ -19,8 +19,9 @@ var expenseCategories = [
 
 function ExpenseCategoryInput(props) {
   var onChange = props.onChange;
+  var value = props.value;
   var match = React.useState(function () {
-        return "";
+        return value;
       });
   var setQuery = match[1];
   var match$1 = React.useState(function () {
@@ -88,7 +89,7 @@ function ExpenseCategoryInput(props) {
                       className: "w-full px-4 py-2 border border-gray-300 rounded-lg",
                       placeholder: "Type to search...",
                       type: "text",
-                      value: match[0],
+                      value: value,
                       onChange: handleInputChange,
                       onClick: (function (param) {
                           setFilteredSuggestions(function (param) {
