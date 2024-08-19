@@ -9,7 +9,11 @@ let make = (~data: array<transactionItem>) => {
       className={` text-xl rounded border p-5 m-5 flex justify-between	`}
       key={Belt.Int.toString(ind)}>
       <span> {React.string(item.transactionCategory)} </span>
-      <span className="text-sm text-blue-600"> {React.float(item.amount)} </span>
+      <span className="text-sm text-blue-600">
+        {React.string(item.amount < 0.0 ? "-" : "")}
+        {React.string("₹")}
+        {React.float(abs_float(item.amount))}
+      </span>
     </h1>
   }, data)->React.array
   <div className="mt-5">

@@ -18,8 +18,12 @@ function ExpenseHistory(props) {
                         JsxRuntime.jsx("span", {
                               children: item.transactionCategory
                             }),
-                        JsxRuntime.jsx("span", {
-                              children: item.amount,
+                        JsxRuntime.jsxs("span", {
+                              children: [
+                                item.amount < 0.0 ? "-" : "",
+                                "₹",
+                                Math.abs(item.amount)
+                              ],
                               className: "text-sm text-blue-600"
                             })
                       ],
