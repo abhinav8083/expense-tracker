@@ -25,7 +25,7 @@ let make = () => {
 
   let (expenseFormData, setExpenseFormData) = React.useState(_ => parsedLocalStorageData)
 
-  <div className="w-1/3  m-auto">
+  <div className="w-full  lg:w-1/2    m-auto">
     <h1> {React.string("Expense Tracker")} </h1>
     <BalanceCard balance={expenseFormData.expense +. expenseFormData.income} />
     <IncomeExpenseCard income={expenseFormData.income} expense={expenseFormData.expense} />

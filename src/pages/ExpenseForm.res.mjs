@@ -44,7 +44,7 @@ function ExpenseForm(props) {
                       data: expenseFormData.transactions
                     })
               ],
-              className: "w-1/3  m-auto"
+              className: "w-full  lg:w-1/2    m-auto"
             });
 }
 
