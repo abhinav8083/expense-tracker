@@ -3,6 +3,7 @@
 import * as React from "react";
 import * as Js_array from "rescript/lib/es6/js_array.js";
 import * as Js_string from "rescript/lib/es6/js_string.js";
+import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as JsxRuntime from "react/jsx-runtime";
 
 var expenseCategories = [
@@ -16,6 +17,8 @@ var expenseCategories = [
   "Personal Care",
   "Miscellaneous"
 ];
+
+var Binddings = {};
 
 function ExpenseCategoryInput(props) {
   var onChange = props.onChange;
@@ -32,8 +35,20 @@ function ExpenseCategoryInput(props) {
   var match$2 = React.useState(function () {
         return false;
       });
-  var setShowDropdown = match$2[1];
-  var showDropdown = match$2[0];
+  var setIsDropDownOpen = match$2[1];
+  var isDropDownOpen = match$2[0];
+  var dropDownRef = React.useRef(null);
+  var handleClickOutside = function ($$event) {
+    if (((dropDownRef.current && !dropDownRef.current.contains(event.target)))) {
+      return setIsDropDownOpen(function (param) {
+                  return false;
+                });
+    }
+    
+  };
+  React.useEffect((function () {
+          addEventListener("mousedown", handleClickOutside);
+        }), []);
   var handleInputChange = function (e) {
     e.preventDefault();
     var value = e.target.value;
@@ -45,18 +60,18 @@ function ExpenseCategoryInput(props) {
       setFilteredSuggestions(function (param) {
             return filtered;
           });
-      return setShowDropdown(function (param) {
+      return setIsDropDownOpen(function (param) {
                   return true;
                 });
     }
     setFilteredSuggestions(function (param) {
           return [];
         });
-    setShowDropdown(function (param) {
+    setIsDropDownOpen(function (param) {
           return false;
         });
   };
-  var renderMenuItems = showDropdown && filteredSuggestions.length > 0 ? Js_array.map((function (item) {
+  var renderMenuItems = isDropDownOpen && filteredSuggestions.length > 0 ? Js_array.map((function (item) {
             return JsxRuntime.jsx("h1", {
                         children: JsxRuntime.jsx("span", {
                               children: item
@@ -66,14 +81,14 @@ function ExpenseCategoryInput(props) {
                             setQuery(function (param) {
                                   return item;
                                 });
-                            setShowDropdown(function (param) {
+                            setIsDropDownOpen(function (param) {
                                   return false;
                                 });
                             onChange(item);
                           })
                       }, item);
           }), filteredSuggestions) : (
-      showDropdown ? JsxRuntime.jsx("h1", {
+      isDropDownOpen ? JsxRuntime.jsx("h1", {
               children: JsxRuntime.jsx("span", {
                     children: "No such category"
                   }),
@@ -95,7 +110,7 @@ function ExpenseCategoryInput(props) {
                           setFilteredSuggestions(function (param) {
                                 return expenseCategories;
                               });
-                          setShowDropdown(function (param) {
+                          setIsDropDownOpen(function (param) {
                                 return true;
                               });
                         })
@@ -105,6 +120,7 @@ function ExpenseCategoryInput(props) {
                       className: "overflow-y-auto max-h-96 dropdown-content absolute right-0 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none "
                     })
               ],
+              ref: Caml_option.some(dropDownRef),
               className: "relative  text-left"
             });
 }
@@ -113,6 +129,7 @@ var make = ExpenseCategoryInput;
 
 export {
   expenseCategories ,
+  Binddings ,
   make ,
 }
 /* react Not a pure module */

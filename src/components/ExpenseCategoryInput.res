@@ -16,13 +16,30 @@ let expenseCategories: array<string> = [
   "Personal Care",
   "Miscellaneous",
 ]
+module Binddings = {
+  @val @acope("window")
+  external addEventListener: (string, unit => unit) => unit = "addEventListener"
+}
 
 @react.component
 let make = (~value: string, ~onChange: string => unit) => {
   // State hooks
   let (query, setQuery) = React.useState(() => value)
   let (filteredSuggestions, setFilteredSuggestions) = React.useState(() => [])
-  let (showDropdown, setShowDropdown) = React.useState(() => false)
+
+  let (isDropDownOpen, setIsDropDownOpen) = React.useState(_ => false)
+  let dropDownRef = React.useRef(Js.Nullable.null)
+
+  let handleClickOutside = event => {
+    if %raw(`(dropDownRef.current && !dropDownRef.current.contains(event.target))`) {
+      setIsDropDownOpen(_ => false)
+    }
+  }
+  React.useEffect0(() => {
+    Binddings.addEventListener("mousedown", handleClickOutside)
+    None
+  })
+
   // Handle input change
   let handleInputChange = e => {
     ReactEvent.Form.preventDefault(e)
@@ -33,10 +50,10 @@ let make = (~value: string, ~onChange: string => unit) => {
         Js.String.includes(String.toLowerCase(value), Js.String.toLowerCase(suggestion))
       })
       setFilteredSuggestions(_ => filtered)
-      setShowDropdown(_ => true)
+      setIsDropDownOpen(_ => true)
     } else {
       setFilteredSuggestions(_ => [])
-      setShowDropdown(_ => false)
+      setIsDropDownOpen(_ => false)
     }
   }
 
@@ -44,25 +61,25 @@ let make = (~value: string, ~onChange: string => unit) => {
   let handleSuggestionClick = suggestion => {
     setQuery(suggestion)
     setFilteredSuggestions(_ => expenseCategories)
-    setShowDropdown(_ => false)
+    setIsDropDownOpen(_ => false)
   }
 
   let renderMenuItems = {
-    if showDropdown && filteredSuggestions->Array.length > 0 {
+    if isDropDownOpen && filteredSuggestions->Array.length > 0 {
       let renderList = Js.Array.map((item: string) => {
         <h1
           className={`cursor-pointer text-xl rounded border p-5 m-5 flex justify-between   hover:bg-emerald-100  `}
           key={item}
           onClick={_ => {
             setQuery(_ => item)
-            setShowDropdown(_ => false)
+            setIsDropDownOpen(_ => false)
             onChange(item)
           }}>
           <span> {React.string(item)} </span>
         </h1>
       }, filteredSuggestions)->React.array
       renderList
-    } else if showDropdown {
+    } else if isDropDownOpen {
       <h1 className={`cursor-pointer text-xl  p-5 m-5 flex justify-between   `}>
         <span> {React.string("No such category")} </span>
       </h1>
@@ -71,7 +88,7 @@ let make = (~value: string, ~onChange: string => unit) => {
     }
   }
 
-  <div className="relative  text-left">
+  <div className="relative  text-left" ref={ReactDOM.Ref.domRef(dropDownRef)}>
     <span> {React.string("Expense Category")} </span>
     <input
       type_="text"
@@ -79,7 +96,7 @@ let make = (~value: string, ~onChange: string => unit) => {
       onChange={handleInputChange}
       onClick={_ => {
         setFilteredSuggestions(_ => expenseCategories)
-        setShowDropdown(_ => true)
+        setIsDropDownOpen(_ => true)
       }}
       //   ref={ref}
       className="w-full px-4 py-2 border border-gray-300 rounded-lg"
@@ -91,56 +108,3 @@ let make = (~value: string, ~onChange: string => unit) => {
     </div>
   </div>
 }
-
-// @react.component
-// let make = (~csv_link: option<string>, ~payload: Billings.invoice_details) => {
-//   let (showOptions, setShowOptions) = React.useState(() => false)
-//   let downloadButtonRef = React.useRef(Js.Nullable.null)
-
-//   let toggleOptions = () => {
-//     if (!showOptions) {
-//       CommonHelper.publishEvent(
-//         ~category=GAConfig.Billings.category,
-//         ~action=GAConfig.Billings.download_btn_clk,
-//         ~label="",
-//         (),
-//       )
-//     }
-//     setShowOptions(_ => !showOptions)
-//   }
-
-//   React.useEffect0(() => {
-//     let handleClickOutside = event => {
-//       if %raw(`(downloadButtonRef.current && !downloadButtonRef.current.contains(event.target))`) {
-//         setShowOptions(_ => false)
-//       }
-//     }
-
-//     JsBindings.addWindowEventListener("mousedown", handleClickOutside)
-//     Some(_ => JsBindings.removeWindowEventListener("mousedown", handleClickOutside))
-//   })
-
-//   <>
-//     <div className="c-download-button">
-//       <Catalyst.RoundedPrimaryButton
-//         buttonProps={Catalyst.ButtonUtils.getDefaultButtonProps(
-//           ~label=Text("Download"),
-//           ~postfixIcon=showOptions
-//             ? <Catalyst.Icon.ExpandLessIcon />
-//             : <Catalyst.Icon.ExpandMoreIcon />,
-//           ~onSelectCB=_ => toggleOptions(),
-//           ~buttonType=Primary,
-//           ~className="c-rounded-button-download",
-//           (),
-//         )}
-//       />
-//     </div>
-//     {switch showOptions {
-//     | false => React.null
-//     | true =>
-//       <div ref={ReactDOM.Ref.domRef(downloadButtonRef)}>
-//         <DownloadOptionsCmp csv_link payload />
-//       </div>
-//     }}
-//   </>
-// }
