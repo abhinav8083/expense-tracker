@@ -30,6 +30,6 @@ let make = () => {
     <BalanceCard balance={expenseFormData.expense +. expenseFormData.income} />
     <IncomeExpenseCard income={expenseFormData.income} expense={expenseFormData.expense} />
     <AddNewTransaction data={expenseFormData} onNewTransaction={setExpenseFormData} />
-    <ExpenseHistory />
+    <ExpenseHistory data={expenseFormData.transactions} />
   </div>
 }

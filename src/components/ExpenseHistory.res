@@ -1,8 +1,17 @@
 //Can be of 2 types here 1. will be show in expense form itself and the other one on a separate page /history
-
+open Types
 @react.component
-let make = () => {
+let make = (~data: array<transactionItem>) => {
   let (showHistory, setShowHistory) = React.useState(_ => true)
+  Js.log(data)
+  let renderTransactionHistory = Js.Array.mapi((item: transactionItem, ind) => {
+    <h1
+      className={`cursor-pointer text-xl rounded border p-5 m-5 flex justify-between	`}
+      key={Belt.Int.toString(ind)}>
+      <span> {React.string(item.transactionCategory)} </span>
+      <span className="text-sm text-blue-600"> {React.float(item.amount)} </span>
+    </h1>
+  }, data)->React.array
   <div className="mt-5">
     <div
       className="bg-slate-100 flex flex-row justify-between p-2 cursor-pointer"
@@ -13,16 +22,7 @@ let make = () => {
       // </span>
     </div>
     {showHistory
-      ? <div className="divide-y divide-slate-200">
-          <SingleHistoryItem />
-          <SingleHistoryItem />
-          <SingleHistoryItem />
-          <SingleHistoryItem />
-          <SingleHistoryItem />
-          <SingleHistoryItem />
-          <SingleHistoryItem />
-          <SingleHistoryItem />
-        </div>
+      ? <div className="max-h-96 overflow-auto border"> renderTransactionHistory </div>
       : <> </>}
   </div>
 }

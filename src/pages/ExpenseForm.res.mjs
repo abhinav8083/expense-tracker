@@ -40,7 +40,9 @@ function ExpenseForm(props) {
                       data: expenseFormData,
                       onNewTransaction: match[1]
                     }),
-                JsxRuntime.jsx(ExpenseHistory.make, {})
+                JsxRuntime.jsx(ExpenseHistory.make, {
+                      data: expenseFormData.transactions
+                    })
               ],
               className: "w-1/3  m-auto"
             });
