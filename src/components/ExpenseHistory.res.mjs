@@ -23,7 +23,7 @@ function ExpenseHistory(props) {
                               className: "text-sm text-blue-600"
                             })
                       ],
-                      className: "cursor-pointer text-xl rounded border p-5 m-5 flex justify-between	"
+                      className: " text-xl rounded border p-5 m-5 flex justify-between	"
                     }, String(ind));
         }), data);
   return JsxRuntime.jsxs("div", {

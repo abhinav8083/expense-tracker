@@ -6,7 +6,7 @@ let make = (~data: array<transactionItem>) => {
   Js.log(data)
   let renderTransactionHistory = Js.Array.mapi((item: transactionItem, ind) => {
     <h1
-      className={`cursor-pointer text-xl rounded border p-5 m-5 flex justify-between	`}
+      className={` text-xl rounded border p-5 m-5 flex justify-between	`}
       key={Belt.Int.toString(ind)}>
       <span> {React.string(item.transactionCategory)} </span>
       <span className="text-sm text-blue-600"> {React.float(item.amount)} </span>
