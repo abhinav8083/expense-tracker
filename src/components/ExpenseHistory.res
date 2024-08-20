@@ -3,21 +3,24 @@ open Types
 @react.component
 let make = (~data: array<transactionItem>) => {
   let (showHistory, setShowHistory) = React.useState(_ => true)
-  let renderTransactionHistory = Js.Array.mapi((item: transactionItem, ind) => {
-    <h1
-      className={` text-xl rounded  hover:bg-slate-50 p-3 flex justify-between	`}
-      key={Belt.Int.toString(ind)}>
-      <span> {React.string(item.transactionCategory)} </span>
-      <span
-        className={`text-sm  rounded justify-center border-r align-middle text-white   font-mono p-2 ${item.amount > 0.0
-            ? "bg-green-500 "
-            : "bg-red-500 flex "}`}>
-        {React.string(item.amount < 0.0 ? "-" : "+")}
-        {React.string("₹")}
-        {React.float(abs_float(item.amount))}
-      </span>
-    </h1>
-  }, data)->React.array
+  let renderTransactionHistory =
+    Array.length(data) > 0 ? Js.Array.mapi((item: transactionItem, ind) => {
+          <h1
+            className={` text-xl rounded  hover:bg-slate-50 p-3 flex justify-between	`}
+            key={Belt.Int.toString(ind)}>
+            <span> {React.string(item.transactionCategory)} </span>
+            <span
+              className={`text-sm  rounded justify-center border-r align-middle text-white   font-mono p-2 ${item.amount > 0.0
+                  ? "bg-green-500 "
+                  : "bg-red-500 flex "}`}>
+              {React.string(item.amount < 0.0 ? "-" : "+")}
+              {React.string("₹")}
+              {React.float(abs_float(item.amount))}
+            </span>
+          </h1>
+        }, data)->React.array : <p className="text-center ">
+          {React.string("No transaction Found!")}
+        </p>
   <div className="mt-5">
     <div
       className="bg flex flex-row justify-between p-2 cursor-pointer"
